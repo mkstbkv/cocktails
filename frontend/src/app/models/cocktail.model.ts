@@ -16,7 +16,7 @@ export class Cocktail {
   ) {}
 }
 
-export interface TrackData {
+export interface CocktailData {
   [key: string]: any;
   user: string;
   name: string;

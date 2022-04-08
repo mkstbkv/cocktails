@@ -100,3 +100,5 @@ router.post('/facebookLogin', async (req, res, next) => {
         next(e);
     }
 })
+
+module.exports = router;

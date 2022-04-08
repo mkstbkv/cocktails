@@ -1,1 +1,30 @@
-<p>cocktail-details works!</p>
+<div class="error" *ngIf="error | async">
+  {{ error | async }}
+</div>
+
+<mat-progress-spinner
+  *ngIf="(loading | async) else cocktailArea"
+  mode="indeterminate"
+></mat-progress-spinner>
+
+<ng-template #cocktailArea>
+  <mat-card style="width: 400px">
+    <mat-card-title-group>
+      <mat-card-title>-{{ cocktailOne.name }}</mat-card-title>
+      <img mat-card-image  style="width: 200px" [src]="cocktailOne.image  | image" [alt]="'Photo of ' + cocktailOne.name">
+    </mat-card-title-group>
+    <mat-card-content>
+      <div>
+        <h2>Ingredients:</h2>
+        <mat-list role="list">
+          <mat-list-item role="listitem"  *ngFor="let ing of cocktailOne.ingredients">
+            <strong>{{ ing.title }}</strong> - {{ ing.amount }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <p><strong>Recipe:</strong> {{ cocktailOne.recipe }}</p>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+

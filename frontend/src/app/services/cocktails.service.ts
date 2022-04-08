@@ -28,6 +28,22 @@ export class CocktailsService {
     );
   }
 
+  getCocktail(id: string) {
+    return this.http.get<Cocktail>(environment.apiUrl + '/cocktails/' + id).pipe(
+      map(response => {
+        return new Cocktail(
+          response._id,
+          response.user,
+          response.name,
+          response.image,
+          response.recipe,
+          response.is_published,
+          response.ingredients
+        );
+      })
+    );
+  }
+
   createCocktail(cocktailData: CocktailData) {
     const formData = new FormData();
 

@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { usersReducer } from './users/users.reducer';
 import { cocktailsReducer } from './cocktails/cocktails.reducer';
 import { UsersEffects } from './users/users.effects';
+import { CocktailsEffects } from './cocktails/cocktails.effects';
 
 const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
   return localStorageSync({
@@ -20,7 +21,7 @@ const reducers = {
   cocktails: cocktailsReducer
 };
 
-const effects = [UsersEffects];
+const effects = [UsersEffects, CocktailsEffects];
 
 @NgModule({
   imports: [

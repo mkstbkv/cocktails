@@ -18,17 +18,33 @@ import { NewCocktailComponent } from './pages/new-cocktail/new-cocktail.componen
 import { CocktailDetailsComponent } from './pages/cocktail-details/cocktail-details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatMenuModule } from '@angular/material/menu';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
-import { SocialLoginModule } from 'angularx-social-login';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FileInputComponent } from './ui/file-input/file-input.component';
 import { AppStoreModule } from './store/app-store.module';
+import { HasRolesDirective } from './directives/has-roles.directive';
+import { UserTypeDirective } from './directives/user-type.directive';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import { AuthInterceptor } from './auth.interceptor';
+import { environment } from '../environments/environment';
+
+const socialConfig: SocialAuthServiceConfig = {
+  autoLogin: false,
+  providers: [
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider(environment.fbAppId, {
+        scope: 'email,public_profile'
+      })
+    }
+  ]
+}
 
 @NgModule({
   declarations: [
@@ -40,7 +56,9 @@ import { AppStoreModule } from './store/app-store.module';
     FileInputComponent,
     ImagePipe,
     NewCocktailComponent,
-    CocktailDetailsComponent
+    CocktailDetailsComponent,
+    HasRolesDirective,
+    UserTypeDirective
   ],
   imports: [
     BrowserModule,
@@ -62,10 +80,13 @@ import { AppStoreModule } from './store/app-store.module';
     MatMenuModule,
     AppRoutingModule,
     MatSelectModule,
+    AppStoreModule,
     SocialLoginModule,
-    AppStoreModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: 'SocialAuthServiceConfig', useValue: socialConfig },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

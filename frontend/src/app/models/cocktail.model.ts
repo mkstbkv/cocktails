@@ -18,9 +18,8 @@ export class Cocktail {
 
 export interface CocktailData {
   [key: string]: any;
-  user: string;
   name: string;
   image: File | null;
   recipe: string;
-  ingredients: Ingredient[]
+  ingredients: string
 }

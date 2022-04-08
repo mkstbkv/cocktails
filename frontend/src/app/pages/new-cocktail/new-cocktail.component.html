@@ -1,1 +1,92 @@
-<p>new-cocktail works!</p>
+<div fxLayout="row" fxLayoutAlign="center">
+  <mat-card style="width: 300px; margin-top: 50px">
+    <mat-card-title>Add New Cocktail</mat-card-title>
+    <mat-card-content>
+      <form
+        [formGroup]="cocktailForm"
+        fxLayout="column"
+        autocomplete="off"
+        (ngSubmit)="onSubmit()"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input
+            type="text" formControlName="name" required matInput id="name"
+          />
+        </mat-form-field>
+
+        <div style="margin: 0 15px;" formArrayName="ingredients">
+          <button
+            type="button"
+            mat-raised-button color="accent"
+            (click)="addIngredient()"
+          >Add ingredient</button>&nbsp;
+          <button
+            type="button"
+            mat-raised-button color="accent"
+            (click)="resetIngredients()"
+          >Reset</button>
+
+          <div *ngFor="let ingredientControl of getIngredientControls(); let i = index"
+               style="border: 1px solid black; padding: 15px; margin-top: 10px;">
+            <div [formGroupName]="i">
+              <h3>Ingredient {{ i + 1 }}</h3>
+              <mat-form-field appearance="outline" style="margin-top: 15px">
+                <label for="title">Title</label>
+                <input
+                  type="text"
+                  formControlName="title"
+                  matInput
+                  id="title"
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <label for="amount">Amount</label>
+                <input
+                  type="text"
+                  formControlName="amount"
+                  matInput
+                  id="amount"
+                />
+              </mat-form-field>
+
+              <button
+                type="button"
+                mat-raised-button color="warn"
+                (click)="deleteIngredient(i)"
+              >Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline" style="margin-top: 15px;">
+          <mat-label>Recipe</mat-label>
+          <textarea
+            formControlName="recipe"
+            id="recipe"
+            required
+            ngModel
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="3"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Image</mat-label>
+          <app-file-input formControlName="image" id="image"></app-file-input>
+        </mat-form-field>
+
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="cocktailForm.invalid"
+        >
+          Create cocktail
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

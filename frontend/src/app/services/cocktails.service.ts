@@ -44,6 +44,25 @@ export class CocktailsService {
     );
   }
 
+  getMyCocktails() {
+    return this.http.get<Cocktail[]>(environment.apiUrl + '/cocktails/myCocktails').pipe(
+      map(response => {
+        return response.map(cocktailData => {
+          return new Cocktail(
+            cocktailData._id,
+            cocktailData.user,
+            cocktailData.name,
+            cocktailData.image,
+            cocktailData.recipe,
+            cocktailData.is_published,
+            cocktailData.ingredients
+          );
+        });
+      })
+    );
+  }
+
+
   createCocktail(cocktailData: CocktailData) {
     const formData = new FormData();
 

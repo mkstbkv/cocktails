@@ -2,12 +2,21 @@ import { createReducer, on } from '@ngrx/store';
 import { CocktailsState } from '../types';
 import {
   createCocktailFailure,
-  createCocktailRequest, createCocktailSuccess, deleteCocktailFailure, deleteCocktailRequest, deleteCocktailSuccess,
+  createCocktailRequest,
+  createCocktailSuccess,
+  deleteCocktailFailure,
+  deleteCocktailRequest,
+  deleteCocktailSuccess,
   fetchCocktailFailure,
   fetchCocktailRequest,
   fetchCocktailsFailure,
   fetchCocktailsRequest,
-  fetchCocktailsSuccess, fetchCocktailSuccess, publishCocktailFailure, publishCocktailsRequest, publishCocktailSuccess
+  fetchCocktailsSuccess,
+  fetchCocktailSuccess, fetchMyCocktailsFailure,
+  fetchMyCocktailsRequest, fetchMyCocktailsSuccess,
+  publishCocktailFailure,
+  publishCocktailsRequest,
+  publishCocktailSuccess
 } from './cocktails.actions';
 
 const initialState: CocktailsState = {
@@ -32,6 +41,17 @@ export const cocktailsReducer = createReducer(
     cocktails
   })),
   on(fetchCocktailsFailure, (state, {error}) => ({
+    ...state,
+    fetchLoading: false,
+    fetchError: error
+  })),
+  on(fetchMyCocktailsRequest, state => ({...state, fetchLoading: true})),
+  on(fetchMyCocktailsSuccess, (state, {cocktails}) => ({
+    ...state,
+    fetchLoading: false,
+    cocktails
+  })),
+  on(fetchMyCocktailsFailure, (state, {error}) => ({
     ...state,
     fetchLoading: false,
     fetchError: error

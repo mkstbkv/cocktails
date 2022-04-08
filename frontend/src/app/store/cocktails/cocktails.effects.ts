@@ -17,7 +17,7 @@ import {
   fetchCocktailsFailure,
   fetchCocktailsRequest,
   fetchCocktailsSuccess,
-  fetchCocktailSuccess,
+  fetchCocktailSuccess, fetchMyCocktailsFailure, fetchMyCocktailsRequest, fetchMyCocktailsSuccess,
   publishCocktailFailure,
   publishCocktailsRequest,
   publishCocktailSuccess
@@ -32,6 +32,16 @@ export class CocktailsEffects {
     mergeMap(() => this.cocktailsService.getCocktails().pipe(
       map(cocktails => fetchCocktailsSuccess({cocktails})),
       catchError(() => of(fetchCocktailsFailure({
+        error: 'Something went wrong'
+      })))
+    ))
+  ));
+
+  fetchMyCocktails = createEffect(() => this.actions.pipe(
+    ofType(fetchMyCocktailsRequest),
+    mergeMap(() => this.cocktailsService.getMyCocktails().pipe(
+      map(cocktails => fetchMyCocktailsSuccess({cocktails})),
+      catchError(() => of(fetchMyCocktailsFailure({
         error: 'Something went wrong'
       })))
     ))

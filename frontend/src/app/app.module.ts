@@ -11,7 +11,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CocktailsComponent } from './pages/cocktails/cocktails.component';
-import { MyCocktailsComponent } from './pages/my-cocktails/my-cocktails.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ImagePipe } from './pipes/image.pipe';
 import { NewCocktailComponent } from './pages/new-cocktail/new-cocktail.component';
@@ -33,6 +32,7 @@ import { UserTypeDirective } from './directives/user-type.directive';
 import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { AuthInterceptor } from './auth.interceptor';
 import { environment } from '../environments/environment';
+import { MyCocktailsComponent } from './pages/my-cocktails/my-cocktails.component';
 
 const socialConfig: SocialAuthServiceConfig = {
   autoLogin: false,
@@ -51,14 +51,14 @@ const socialConfig: SocialAuthServiceConfig = {
     AppComponent,
     LayoutComponent,
     CocktailsComponent,
-    MyCocktailsComponent,
     LoginComponent,
     FileInputComponent,
     ImagePipe,
     NewCocktailComponent,
     CocktailDetailsComponent,
     HasRolesDirective,
-    UserTypeDirective
+    UserTypeDirective,
+    MyCocktailsComponent
   ],
   imports: [
     BrowserModule,

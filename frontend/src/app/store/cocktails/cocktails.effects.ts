@@ -7,14 +7,23 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../types';
 import {
   createCocktailFailure,
-  createCocktailRequest, createCocktailSuccess, deleteCocktailFailure, deleteCocktailRequest, deleteCocktailSuccess,
+  createCocktailRequest,
+  createCocktailSuccess,
+  deleteCocktailFailure,
+  deleteCocktailRequest,
+  deleteCocktailSuccess,
   fetchCocktailFailure,
   fetchCocktailRequest,
   fetchCocktailsFailure,
   fetchCocktailsRequest,
-  fetchCocktailsSuccess, fetchCocktailSuccess, publishCocktailFailure, publishCocktailsRequest, publishCocktailSuccess
+  fetchCocktailsSuccess,
+  fetchCocktailSuccess,
+  publishCocktailFailure,
+  publishCocktailsRequest,
+  publishCocktailSuccess
 } from './cocktails.actions';
 import { CocktailsService } from '../../services/cocktails.service';
+import { HelpersService } from '../../services/helpers.service';
 
 @Injectable()
 export class CocktailsEffects {
@@ -42,7 +51,10 @@ export class CocktailsEffects {
     ofType(createCocktailRequest),
     mergeMap(({cocktailData}) => this.cocktailsService.createCocktail(cocktailData).pipe(
       map(() => createCocktailSuccess()),
-      tap(() => this.router.navigate(['/'])),
+      tap(() => {
+        void this.router.navigate(['/']);
+        this.helpers.openSnackbar('Your cocktail is being reviewed by a moderator');
+      }),
       catchError(() => of(createCocktailFailure({error: 'Wrong data'})))
     ))
   ));
@@ -53,6 +65,7 @@ export class CocktailsEffects {
       map(() => publishCocktailSuccess()),
       tap(() => {
         this.store.dispatch(fetchCocktailsRequest());
+        this.helpers.openSnackbar('Published');
       }),
       catchError(() => of(publishCocktailFailure({error: 'No access!'})))
     ))
@@ -64,6 +77,7 @@ export class CocktailsEffects {
       map(() => deleteCocktailSuccess()),
       tap(() => {
         this.store.dispatch(fetchCocktailsRequest());
+        this.helpers.openSnackbar('Deleted');
       }),
       catchError(() => of(deleteCocktailFailure({error: 'No access!'})))
     ))
@@ -73,6 +87,7 @@ export class CocktailsEffects {
     private store: Store<AppState>,
     private actions: Actions,
     private cocktailsService: CocktailsService,
-    private router: Router
+    private router: Router,
+    private helpers: HelpersService,
   ) {}
 }

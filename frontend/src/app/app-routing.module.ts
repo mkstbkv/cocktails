@@ -12,8 +12,6 @@ const routes: Routes = [
   {
     path: 'cocktails/:id',
     component: CocktailDetailsComponent,
-    canActivate: [RoleGuardService],
-    data: {roles: ['admin', 'user']}
   },
   {path: 'login', component: LoginComponent},
   {

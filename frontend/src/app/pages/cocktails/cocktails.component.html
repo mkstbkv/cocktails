@@ -1,1 +1,45 @@
-<p>cocktails works!</p>
+<div fxLayout="row" fxLayoutAlign="space-between flex-start">
+  <h1>Cocktails</h1>
+</div>
+
+<div class="error" *ngIf="error | async">
+  {{ error | async }}
+</div>
+
+<mat-progress-spinner
+  *ngIf="(loading | async) else cocktailsArea"
+  mode="indeterminate"
+></mat-progress-spinner>
+
+<ng-template #cocktailsArea>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div
+      fxFlex.xs="100%"
+      fxFlex.sm="50%"
+      fxFlex.lt-lg="33%"
+      fxFlex="25%"
+      *ngFor="let cocktail of cocktails | async"
+    >
+      <mat-card style="max-width: 300px">
+        <mat-card-header>
+          <mat-card-title>{{ cocktail.name }}</mat-card-title>
+          <div *appHasRoles="['admin']">
+            <mat-card-subtitle  *ngIf="!cocktail.is_published" >Unpublished</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+        <img mat-card-image [src]="cocktail.image  | image" [alt]="'Photo of ' + cocktail.name">
+        <mat-card-actions>
+          <a [routerLink]="['/cocktails/', cocktail._id]" mat-raised-button color="primary">More info</a>
+          <div *appHasRoles="['admin']">
+            <button mat-raised-button color="accent"
+                    *ngIf="!cocktail.is_published"
+                    (click)="publishArtist(cocktail._id)"
+            >Publish</button>
+            <button mat-raised-button color="warn" (click)="deleteArtist(cocktail._id)">Delete</button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</ng-template>
+

@@ -31,11 +31,13 @@ router.get("/", async (req, res, next) => {
             return res.send(cocktails);
         }
 
-        if (role === 'admin') {
-            const cocktails = await Cocktail.find();
-            return res.send(cocktails);
-        }
+        // if (role === 'admin') {
+        //     const cocktails = await Cocktail.find();
+        //     return res.send(cocktails);
+        // }
 
+        const cocktails = await Cocktail.find();
+        return res.send(cocktails);
     } catch(e) {
         next(e);
     }

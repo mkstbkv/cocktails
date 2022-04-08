@@ -29,7 +29,7 @@ export class CocktailsService {
   }
 
   getCocktail(id: string) {
-    return this.http.get<Cocktail>(environment.apiUrl + '/cocktails/' + id).pipe(
+    return this.http.get<Cocktail>(environment.apiUrl + '/cocktails/myCocktails' + id).pipe(
       map(response => {
         return new Cocktail(
           response._id,

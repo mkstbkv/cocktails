@@ -2,7 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import {
   loginUserFailure,
   loginUserRequest,
-  loginUserSuccess, logoutUser,
+  loginUserSuccess,
+  logoutUser,
 } from './users.actions';
 import { UsersState } from '../types';
 
@@ -32,5 +33,5 @@ export const usersReducer = createReducer(
   on(logoutUser, state => ({
     ...state,
     user: null,
-  }))
+  })),
 )

@@ -81,7 +81,7 @@ router.post('/facebookLogin', async (req, res, next) => {
 
         if (!user) {
             const fileName = nanoid();
-            await avatarFile(req.body.avatar, config.uploadPath, fileName);
+            await avatarFile(req.body.photoUrl, config.uploadPath, fileName);
 
             user = new User({
                 email: req.body.email,

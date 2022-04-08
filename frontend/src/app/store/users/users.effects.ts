@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { loginUserFailure, loginUserRequest, loginUserSuccess, logoutUser, logoutUserRequest, } from './users.actions';
+import {
+  loginUserFailure,
+  loginUserRequest,
+  loginUserSuccess,
+  loginUserWithFacebookRequest,
+  logoutUser,
+  logoutUserRequest,
+} from './users.actions';
 import { map, mergeMap, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SocialAuthService } from 'angularx-social-login';
@@ -24,6 +31,18 @@ export class UsersEffects {
   loginUser = createEffect(() => this.actions.pipe(
     ofType(loginUserRequest),
     mergeMap(({userData}) => this.usersService.login(userData).pipe(
+      map(user => loginUserSuccess({user})),
+      tap(() => {
+        this.helpers.openSnackbar('Login successful');
+        void this.router.navigate(['/']);
+      }),
+      this.helpers.catchServerError(loginUserFailure)
+    ))
+  ))
+
+  loginUserWithFacebook = createEffect(() => this.actions.pipe(
+    ofType(loginUserWithFacebookRequest),
+    mergeMap(({userData}) => this.usersService.loginWithFacebook(userData).pipe(
       map(user => loginUserSuccess({user})),
       tap(() => {
         this.helpers.openSnackbar('Login successful');

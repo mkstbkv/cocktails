@@ -2,3 +2,5 @@ node_modules
 .idea
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/a1.jpg
+!public/uploads/abc.jpg
